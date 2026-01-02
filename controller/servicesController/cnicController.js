@@ -42,17 +42,7 @@ const createCnic = async (req, res) => {
       fatherCnicPicFront: frontUrl,
     });
 
-    await serviceModel.create({
-      clientId:cnic.clientID,
-      serviceType:"PASSPORT",
-      serviceRefId:cnic._id
-    })
-    return res.status(200).json({
-      success: true,
-      message: "data recived for new cnic",
-      data: cnic,
-      id: cnic.id,
-    });
+   
   } catch (error) {
     return res.status(500).json({
       success: false,
