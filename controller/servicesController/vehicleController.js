@@ -1,3 +1,4 @@
+const serviceModel = require("../../models/servicesHistory");
 const UserModel = require("../../models/users");
 const vehicleModel = require("../../models/vehicleRegistration");
 
@@ -13,7 +14,7 @@ const getVehicleData = async (req, res) => {
 
     if (!clientId) {
       return res.status(400).json({
-        success: true,
+        success: false,
         message: "clientId must be required",
       });
     }
@@ -45,11 +46,20 @@ const getVehicleData = async (req, res) => {
         data: null,
       });
     }
+     
+
+const vehicleHistory = await serviceModel.create({
+      clientId:uploadVehicleData.clientId,
+      serviceType:"VEHICLE",
+      serviceRefId:uploadVehicleData._id
+    })
+
 
     return res.status(200).json({
       success: true,
       message: "successfully uploaded vehicle data",
       data: uploadVehicleData,
+      history:vehicleHistory
     });
   } catch (error) {
     return res.status(500).json({
