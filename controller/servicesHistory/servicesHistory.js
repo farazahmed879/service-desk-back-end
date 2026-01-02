@@ -29,7 +29,7 @@ if (!client) {
 const service = await serviceModel.find({clientId:client._id})
 
 if(service.length ===0){
-  return res.status.json({
+  return res.status(200).json({
     success:false,
     msssage:"services not found with this client",
     data:null      
@@ -53,4 +53,4 @@ return res.status(200).json({
 
 
 
-module.exports = { getClientWithService };
+module.exports = { getClientWithService , };

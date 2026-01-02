@@ -22,6 +22,7 @@ const {
 } = require("../controller/servicesController/bFormController");
 const { updateVehicleData, deleteVehileDataByCnic, getAllVehicleData, getVehicleData, getVehicleDataByCnic } = require("../controller/servicesController/vehicleController");
 const { createDrivingLicense } = require("../controller/servicesController/drivingLicense.controller");
+const { getClientWithService } = require("../controller/servicesHistory/servicesHistory");
 
 const router = express.Router();
 
@@ -120,5 +121,12 @@ router.get('/vehicleDataByCnic' ,  getVehicleDataByCnic)
 // driving license  routing
 
 router.post("/driLicense"  , createDrivingLicense)
+
+
+
+
+// services history  
+
+router.post("/history", getClientWithService)
 
 module.exports = router;
