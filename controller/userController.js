@@ -49,37 +49,37 @@ const findUserById = async (userId) => {
 
 const signUp = async (req, res) => {
   try {
-    const { name, email, password, role, isActive } = req.body;
+    const { name, email, password, role } = req.body;
 
-    if (req.file) {
-      console.log("Uploaded file:", req.file);
-      // You can save the file path to DB if needed
-    }
+    // if (req.file) {
+    //   console.log("Uploaded file:", req.file);
+    //   // You can save the file path to DB if needed
+    // }
 
-    const hasUser = await UserModel.findOne({ email: email });
-    if (hasUser)
-      return res.status(400).json({
-        message: "email already registered",
-        data: null,
-        isSuccess: false,
-      });
+    // const hasUser = await UserModel.findOne({ email: email });
+    // if (hasUser)
+    //   return res.status(400).json({
+    //     message: "email already registered",
+    //     data: null,
+    //     isSuccess: false,
+    //   });
 
-    if (!name || !email || !password)
+    if (!name || !email || !password || !role)
       return res.status(400).json({
         message: "All fields are required",
         data: null,
         isSuccess: false,
       });
 
-    // console.log("validator(email)",validator(email))
+    console.log("validator(email)", validator.isEmail(email));
 
-    // if (!validator(email))
-    //   return res.status(400).json({ message: "Email must be a valid email" });
+    if (!validator.isEmail(email))
+      return res.status(400).json({ message: "Email must be a valid email" });
 
-    // if (!validator.isStrongPassword(password))
-    //   return res
-    //     .status(400)
-    //     .json({ message: "Password must be a strong password" });
+    if (!validator.isStrongPassword(password))
+      return res
+        .status(400)
+        .json({ message: "Password must be a strong password" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await UserModel.create({
@@ -87,8 +87,8 @@ const signUp = async (req, res) => {
       email,
       password: hashedPassword,
       role,
-      file: req.file.filename,
-      isActive,
+      // file: req.file.filename,
+      // isActive,
     });
 
     return res.status(201).json({
@@ -105,8 +105,6 @@ const updateUser = async (req, res) => {
   try {
     const { id } = req.params; // Get user ID from request params
     const { name, email, password, role, isActive } = req.body;
-
-
 
     // Find the existing user
     let user = await UserModel.findById(id);
@@ -140,10 +138,11 @@ const updateUser = async (req, res) => {
       isSuccess: true,
     });
   } catch (err) {
-    return res.status(500).json({ message: err.message, data: null, isSuccess: false });
+    return res
+      .status(500)
+      .json({ message: err.message, data: null, isSuccess: false });
   }
 };
-
 
 const login = async (req, res) => {
   try {
@@ -172,7 +171,7 @@ const login = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000, // 1 day expiration
     });
 
-    // res.cookie("userDetail", JSON.stringify(user));
+    res.cookie("userDetail", JSON.stringify(user));
 
     return res.status(200).json({
       message: "login success",
@@ -183,6 +182,32 @@ const login = async (req, res) => {
     return res.status(500).json({ message: "internal server error" });
   }
 };
+
+// const deleteUser = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const user = await UserModel.findById(id);
+
+//     if (!user) {
+//       return res.status(404).json({
+//         message: "user not found",
+//         isSuccess: false,
+//       });
+
+   
+//     }
+//        await UserModel.findByIdAndDelete(id);
+
+//       return res.status(200).json({
+//         message: "user Deleted successFully!",
+//         isSuccess: true,
+//       });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message:"Server Error"
+//     })
+//   }
+// };
 
 const tokenHai = async (req, res) => {
   return res.json({ message: "failed", data: false });
@@ -271,5 +296,5 @@ module.exports = {
   findUserById,
   logout,
   tokenHai,
-  updateUser
+  updateUser,
 };
