@@ -44,14 +44,14 @@ const createCnic = async (req, res) => {
 
     await serviceModel.create({
       clientId:cnic.clientID,
-      // serviceType:"PASSPORT",
+      serviceType:"PASSPORT",
       serviceRefId:cnic._id
     })
     return res.status(200).json({
       success: true,
       message: "data recived for new cnic",
-      // data: cnic,
-      // id: cnic.id,
+      data: cnic,
+      id: cnic.id,
     });
   } catch (error) {
     return res.status(500).json({
