@@ -93,7 +93,9 @@ const signUp = async (req, res) => {
 
     return res.status(201).json({
       message: "User Created Successfully",
-      data: user,
+      Name: user.name,
+      Email: user.email,
+      Role: user.role,
       isSuccess: true,
     });
   } catch (err) {
