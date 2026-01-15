@@ -8,8 +8,11 @@
     const userRouter = require("./router/userRouter");
     const clientRouter  =require("./router/clientRouter")
     const serviceRouter =require('./router/serviceRouter')
-    
-      // const chatRouter = require("./router/chatRouter");
+    const cnicRouter = require("./router/cnicRouter")
+    const passportRouter =require("./router/passportRouter")
+    const bFromRouter =require("./router/bFromRouter")
+
+    // const chatRouter = require("./router/chatRouter");
       // const messageRouter = require("./router/messageRouter");
       // const notificationRouter = require("./router/notificationRouter");
       // const requestRouter = require("./router/requestRouter");
@@ -40,7 +43,12 @@
     // app.use("/product", productRouter);
     app.use("/users", userRouter);
     app.use("/client" ,clientRouter )
+  
     app.use("/services" ,serviceRouter)
+    app.use("/cnic" , cnicRouter  )
+    app.use("/passport" , passportRouter  )
+    app.use("/bform" , bFromRouter  )
+  
     // app.use("/chats", chatRouter);
     // app.use("/messages", messageRouter);
     // app.use("/notifications", notificationRouter);

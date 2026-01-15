@@ -44,7 +44,7 @@ const createCnic = async (req, res) => {
 
     const cnicHistory = await serviceModel.create({
       clientId:cnic.clientID,
-      serviceType:"PASSPORT",
+      serviceType:"CNIC",
       serviceRefId:cnic._id
     })
 

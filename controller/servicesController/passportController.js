@@ -155,7 +155,17 @@ const getPassportclientByCnic = async (req, res) => {
         data: null,
         message: "error !  merging data problem",
       });
+
+
+
     }
+
+return res.status(200).json({
+  data:getpassportClientByclientID,
+  success:true,
+
+})
+
   } catch (error) {
     return res.status(500).json({
       success: false,
