@@ -26,7 +26,7 @@ const getVehicleData = async (req, res) => {
       !vehicleName
     ) {
       return res.status(400).json({
-        success: true,
+        success: false,
         message: "All field must be required",
       });
     }
@@ -77,7 +77,7 @@ const updateVehicleData = async (req, res) => {
   try {
     const { id } = req.body;
     if (!id) {
-      return res.status(200).json({
+      return res.status(400).json({
         success: false,
         message: "id must be required",
         data: null,

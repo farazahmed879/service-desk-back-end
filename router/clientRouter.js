@@ -9,10 +9,10 @@ const upload = require("../middleware/upload")
 const router = express.Router()
 
 
-router.post("/createClient" ,upload.single("facePicture") ,createClient)
-router.get("/getAllClient",getAllClient )
-router.get("/getclientByEmail",getClientByEmail )
-router.get("/clientDeleteById/:id",clientDeleteById )
+router.post("/create" ,upload.single("facePicture") ,createClient)
+router.get("/get-all",getAllClient )
+router.get("/get-by-email",getClientByEmail )
+router.get("/delete-by-id/:id",clientDeleteById )
 
 
 
