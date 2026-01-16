@@ -11,7 +11,7 @@ const servicesHistorySchema = new mongoose.Schema(
      serviceType:{
         required:true,
         type:String,
-        enum:['CNIC' ,"PASSPORT" , "BFORM"],
+        enum:['CNIC' ,"PASSPORT" , "BFORM" , "VEHICLE" ,"DRIVING_LICENSE"],
      },
 
      serviceRefId:{

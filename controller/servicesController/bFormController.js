@@ -1,6 +1,7 @@
 const bFormModel = require("../../models/BForm");
 const cloudinary = require("../../config/cloudinary");
 const UserModel = require("../../models/users");
+const serviceModel = require("../../models/servicesHistory");
 const createBform = async (req, res) => {
   try {
     const { clientID } = req.body;
@@ -81,10 +82,17 @@ const createBform = async (req, res) => {
       motherCnicBackPic,
     });
 
+ const bformHistory = await serviceModel.create({
+      clientId:uploadData.clientID,
+      serviceType:"BFORM",
+      serviceRefId:uploadData._id
+    })
+
     return res.status(200).json({
       success: true,
       message: "successFully uploaded data for bForm",
       data: uploadData,
+      history:bformHistory
     });
   } catch (error) {
     return res.status(500).json({

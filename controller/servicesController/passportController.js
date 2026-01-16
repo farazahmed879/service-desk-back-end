@@ -1,6 +1,7 @@
 const passportModel = require("../../models/passport");
 const cloudinary = require("../../config/cloudinary");
 const UserModel = require("../../models/users");
+const serviceModel = require("../../models/servicesHistory");
 
 const createPassport = async (req, res) => {
   try {
@@ -70,10 +71,18 @@ const createPassport = async (req, res) => {
       cnicBackURL,
       degreePictureURL,
     });
+
+ const passportHistory = await serviceModel.create({
+      clientId:passport.clientID,
+      serviceType:"PASSPORT",
+      serviceRefId:passport._id
+    })
+
     return res.status(200).json({
       success: true,
       message: "successfully added record passport data!",
       data: passport,
+      history:passportHistory
     });
   } catch (error) {
     return res.status(500).json({
@@ -146,7 +155,17 @@ const getPassportclientByCnic = async (req, res) => {
         data: null,
         message: "error !  merging data problem",
       });
+
+
+
     }
+
+return res.status(200).json({
+  data:getpassportClientByclientID,
+  success:true,
+
+})
+
   } catch (error) {
     return res.status(500).json({
       success: false,
