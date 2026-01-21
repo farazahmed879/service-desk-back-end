@@ -313,7 +313,10 @@ const forgetpassword = async (req, res) => {
 
     const resetToken = crypto.randomBytes(2).toString("hex");
 
-    const hashResetToken = await bcrypt.hash(resetToken.toString(), 2);
+    // const hashResetToken = await bcrypt.hash(resetToken.toString(), 2);
+    console.log(resetToken)
+    const hashResetToken = crypto.createHash("sha256").update(resetToken).digest("hex")
+    console.log(hashResetToken)
 
     user.resetPasswordToken = hashResetToken;
 
@@ -355,12 +358,80 @@ const forgetpassword = async (req, res) => {
   }
 };
 
+
+const  passwordChange = async (req , res)=>{
+
+  try {
+    
+    const {resetToken , newPassword }  =  req.body
+
+    if(!resetToken   || !newPassword ){
+      return res.status(404).json({
+        success:false,
+        message:"all feild must be required"
+
+      })
+    }
+      
+      const resetPasswordToken  = crypto.createHash("sha256").update(resetToken).digest("hex")  
+    
+     const user  = await UserModel.findOne({
+      resetPasswordToken,
+      resetPasswordTokenExpires:{$gt: Date.now()}
+     })
+   
+  
+
+   if(!user){
+    return res.status(404).json({
+        
+     success:false,
+     message:" wrong token"
+      
+      
+    })
+   }
+      
+
+    const hashNewPassWord =   await bcrypt.hash(newPassword.toString(), 10 )
+       
+  
+
+    user.password = hashNewPassWord
+    user.resetPasswordTokenExpires = undefined
+    user.resetPasswordToken = undefined
+    await  user.save()
+     
+     
+    
+    return res.status(200).json({
+      success:true,
+      message:"successFully added new password"
+    })
+
+    
+       
+  } catch (error) {
+    
+return res.status(400).json({
+
+success:false,
+message:error.message,
+
+})
+
+  }
+
+}
+   
+
 module.exports = {
   getAll,
   getById,
   signUp,
   login,
   forgetpassword,
+  passwordChange,
   uploadProfile,
   verifyToken,
   createToken,
@@ -370,3 +441,22 @@ module.exports = {
   tokenHai,
   updateUser,
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// $2b$10$D5T6RPtvgb3TmikC..VzkOq1S.IHvA8F3mTKcxIlh3DXm//0xxKqG

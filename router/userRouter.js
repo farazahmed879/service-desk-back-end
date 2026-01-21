@@ -8,7 +8,8 @@ const {
   userActivation,
   logout,
   updateUser,
-  forgetpassword
+  forgetpassword,
+  passwordChange
 } = require("../controller/userController");
 
 const { isLoggedIn, restrictTo } = require("../middleware/auth");
@@ -28,6 +29,7 @@ const upload = multer({ storage: storage });
 
 router.post("/signup", signUp);
 router.post("/forget-password", forgetpassword);
+router.post("/new-password", passwordChange);
 // router.put("/:id", updateUser);
 // router.get("/:role?", isLoggedIn, getAll);
 // router.get("/", isLoggedIn, restrictTo(["ADMIN"]), getAll);
