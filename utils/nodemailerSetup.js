@@ -6,7 +6,9 @@ const   sendemail = async({to , subject , html})=>{
 
 
 
-    service:"Gmail",
+     host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
      
 
     auth:{
@@ -18,6 +20,11 @@ const   sendemail = async({to , subject , html})=>{
 
    })
 
+
+
+
+
+   
 await transporter.sendMail({
     
   from: `auth system ${process.env.EMAIL_USER}`,
@@ -25,6 +32,7 @@ await transporter.sendMail({
   to , 
   subject,
   html,
+
 
 
 })

@@ -310,13 +310,21 @@ const forgetpassword = async (req, res) => {
         message: "user not found with this email",
       });
     }
-
+     
+    if(user.resetPasswordToken){
+      return res.status(400).json({
+        message:"otp already send in your email"
+      })
+    }
+    
+    
+    
     const resetToken = crypto.randomBytes(2).toString("hex");
 
-    // const hashResetToken = await bcrypt.hash(resetToken.toString(), 2);
-    console.log(resetToken)
+   
+   
     const hashResetToken = crypto.createHash("sha256").update(resetToken).digest("hex")
-    console.log(hashResetToken)
+   
 
     user.resetPasswordToken = hashResetToken;
 
@@ -324,29 +332,30 @@ const forgetpassword = async (req, res) => {
 
     await user.save();
 
-    // user will go on reset page using this url
+  
 
-    const resetURL = `${req.protocol}://${req.get("host")}/users/forget-password`;
+    // const resetURL = `${req.protocol}://${req.get("host")}/users/forget-password`;
 
     const emailMessage = `
     <p>You requested a password reset.</p>
-      <p>Click this link to reset your password:</p>
-      <a href="${resetURL}">${resetURL}</a>
+     
+      <a > this is your reset otp ${resetToken} </a>
 
-    `;
+    // `;
    
-    // await sendemail({
-    //   to:user.email,
-    //   subject:"password reset",
-    //   html:emailMessage
-    // })
+    await sendemail({
+      to:user.email,
+      subject:"password reset",
+      html:emailMessage,
+      
+    })
 
 
     return res.status(200).json({
       success: true,
       message: "user  has been  found",
       data: user,
-      url: resetURL,
+      // url: resetURL,
      
 
     });
@@ -398,8 +407,8 @@ const  passwordChange = async (req , res)=>{
   
 
     user.password = hashNewPassWord
-    user.resetPasswordTokenExpires = undefined
-    user.resetPasswordToken = undefined
+    user.resetPasswordTokenExpires = null
+    user.resetPasswordToken = null
     await  user.save()
      
      
