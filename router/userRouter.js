@@ -7,15 +7,17 @@ const {
   getById,
   userActivation,
   logout,
-  updateUser
+  updateUser,
+  forgetpassword,
+  passwordChange
 } = require("../controller/userController");
 
 const { isLoggedIn, restrictTo } = require("../middleware/auth");
 const router = express.Router();
 const multer = require("multer");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
     cb(null, "./uploads");
   },
   filename: function (req, file, cb) {
@@ -26,6 +28,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/signup", signUp);
+router.post("/forget-password", forgetpassword);
+router.post("/new-password", passwordChange);
 // router.put("/:id", updateUser);
 // router.get("/:role?", isLoggedIn, getAll);
 // router.get("/", isLoggedIn, restrictTo(["ADMIN"]), getAll);
@@ -38,3 +42,6 @@ router.patch("/activation", isLoggedIn, userActivation);
 // router.post("/delete", Userdelete);
 
   module.exports = router;
+
+
+  

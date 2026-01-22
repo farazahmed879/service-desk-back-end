@@ -49,8 +49,8 @@
     app.use("/cnic" , cnicRouter  )
     app.use("/passport" , passportRouter  )
     app.use("/bform" , bFromRouter  )
-    app.use("/vehicle" , vehicleRouter  )
-  
+ app.use("/vehicle" , vehicleRouter  )
+     
     // app.use("/chats", chatRouter);
     // app.use("/messages", messageRouter);
     // app.use("/notifications", notificationRouter);

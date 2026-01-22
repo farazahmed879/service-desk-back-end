@@ -3,6 +3,12 @@ const { setUser } = require("../service/auth");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
+// forget password
+
+const crypto = require("crypto");
+
+const sendemail = require("../utils/nodemailerSetup");
+
 const getAll = async (req, res) => {
   try {
     const { role } = req.params; // Get role from params
@@ -196,7 +202,6 @@ const login = async (req, res) => {
 //         isSuccess: false,
 //       });
 
-   
 //     }
 //        await UserModel.findByIdAndDelete(id);
 
@@ -286,11 +291,156 @@ const logout = async (req, res) => {
   res.json({ message: "Logged out successfully" });
 };
 
+const forgetpassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(404).json({
+        success: false,
+        message: "email must be required",
+      });
+    }
+
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "user not found with this email",
+      });
+    }
+     
+    if(user.resetPasswordToken){
+      return res.status(400).json({
+        message:"otp already send in your email"
+      })
+    }
+    
+    
+    
+    const resetToken = crypto.randomBytes(2).toString("hex");
+
+   
+   
+    const hashResetToken = crypto.createHash("sha256").update(resetToken).digest("hex")
+   
+
+    user.resetPasswordToken = hashResetToken;
+
+    user.resetPasswordTokenExpires = Date.now() + 30 * 60 * 1000;
+
+    await user.save();
+
+  
+
+    // const resetURL = `${req.protocol}://${req.get("host")}/users/forget-password`;
+
+    const emailMessage = `
+    <p>You requested a password reset.</p>
+     
+      <a > this is your reset otp ${resetToken} </a>
+
+    // `;
+   
+    await sendemail({
+      to:user.email,
+      subject:"password reset",
+      html:emailMessage,
+      
+    })
+
+
+    return res.status(200).json({
+      success: true,
+      message: "user  has been  found",
+      data: user,
+      // url: resetURL,
+     
+
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+const  passwordChange = async (req , res)=>{
+
+  try {
+    
+    const {resetToken , newPassword }  =  req.body
+
+    if(!resetToken   || !newPassword ){
+      return res.status(404).json({
+        success:false,
+        message:"all feild must be required"
+
+      })
+    }
+      
+      const resetPasswordToken  = crypto.createHash("sha256").update(resetToken).digest("hex")  
+    
+     const user  = await UserModel.findOne({
+      resetPasswordToken,
+      resetPasswordTokenExpires:{$gt: Date.now()}
+     })
+   
+  
+
+   if(!user){
+    return res.status(404).json({
+        
+     success:false,
+     message:" wrong token"
+      
+      
+    })
+   }
+      
+
+    const hashNewPassWord =   await bcrypt.hash(newPassword.toString(), 10 )
+       
+  
+
+    user.password = hashNewPassWord
+    user.resetPasswordTokenExpires = null
+    user.resetPasswordToken = null
+    await  user.save()
+     
+     
+    
+    return res.status(200).json({
+      success:true,
+      message:"successFully added new password"
+    })
+
+    
+       
+  } catch (error) {
+    
+return res.status(400).json({
+
+success:false,
+message:error.message,
+
+})
+
+  }
+
+}
+   
+
 module.exports = {
   getAll,
   getById,
   signUp,
   login,
+  forgetpassword,
+  passwordChange,
   uploadProfile,
   verifyToken,
   createToken,
@@ -300,3 +450,22 @@ module.exports = {
   tokenHai,
   updateUser,
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// $2b$10$D5T6RPtvgb3TmikC..VzkOq1S.IHvA8F3mTKcxIlh3DXm//0xxKqG

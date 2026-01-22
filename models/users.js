@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { reset } = require("nodemon");
 const userSchema = new mongoose.Schema(
   {
        role: {
@@ -107,8 +108,28 @@ const userSchema = new mongoose.Schema(
       require: false,
     },
    
+resetPasswordToken:{
+  type: String,
+},
+resetPasswordTokenExpires:{
+  type:Date,
+}
+
+
   },
-  { timestamps: true }
+
+// forget password purpose
+
+
+
+
+
+  { timestamps: true }    
+
+
+
+
+
 );
 
 const UserModel = mongoose.model("Users", userSchema);

@@ -21,6 +21,8 @@ router.post(
     { name: "fatherCnicBackPic", maxCount: 1 },
     { name: "motherCnicFrontPic", maxCount: 1 },
     { name: "motherCnicBackPic", maxCount: 1 },
+    
+    
   ]),
   createBform
 );
