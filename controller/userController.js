@@ -311,11 +311,11 @@ const forgetpassword = async (req, res) => {
       });
     }
      
-    if(user.resetPasswordToken){
-      return res.status(400).json({
-        message:"otp already send in your email"
-      })
-    }
+    // if(user.resetPasswordToken){
+    //   return res.status(400).json({
+    //     message:"otp already send in your email"
+    //   })
+    // }
     
     
     
