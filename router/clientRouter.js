@@ -11,8 +11,8 @@ const router = express.Router()
 
 router.post("/create" ,upload.single("facePicture") ,createClient)
 router.get("/get-all",getAllClient )
-router.get("/get-by-email",getClientByEmail )
-router.get("/delete-by-id/:id",clientDeleteById )
+router.post("/get-by-email",getClientByEmail )
+router.delete("/delete-by-id/:id",clientDeleteById )
 
 
 

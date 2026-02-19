@@ -16,7 +16,6 @@ const createClient = async (req, res) => {
       Gender,
       contact,
       emergencyContactNumber,
-      relativeContactNumber,
       permenentAddress,
       city,
       country,
