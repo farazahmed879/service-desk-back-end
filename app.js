@@ -13,6 +13,7 @@
     const bFromRouter =require("./router/bFromRouter")
     const vehicleRouter =require("./router/vehicleRouter")
    const connectionRouter = require("./router/electric-utility-router/connectionRouter")
+   const gasConnectionRouter = require("./router/gas-utility-router/gasConnectionRouter")
     // const chatRouter = require("./router/chatRouter");
       // const messageRouter = require("./router/messageRouter");
       // const notificationRouter = require("./router/notificationRouter");
@@ -49,7 +50,8 @@
     app.use("/cnic" , cnicRouter  )
     app.use("/passport" , passportRouter  )
     app.use("/bform" , bFromRouter  )
-    app.use("/meter" , connectionRouter  )
+    app.use("/Emeter" , connectionRouter  )
+    app.use("/Gmeter" , gasConnectionRouter  )
  app.use("/vehicle" , vehicleRouter  )
      
     // app.use("/chats", chatRouter);
