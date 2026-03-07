@@ -1,7 +1,7 @@
 const mongoose  = require("mongoose")
 
 const  ElectricConnetionSchema =  new mongoose.Schema({
-    clientId:{
+    clientID:{
         type :mongoose.Schema.Types.ObjectId,
         ref:"Users" 
     }, 
