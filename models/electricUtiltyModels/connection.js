@@ -20,14 +20,14 @@ const  ElectricConnetionSchema =  new mongoose.Schema({
         enum:["active","deactivate" ],
         default:true
     },
-   cnicFrontImg:{
-    type:String,
-    required:true
-   },
-   cnicBackImg:{
-    type:String,
-    required:true,
-   }
+    cnicFrontImg:{
+        type:String,
+        required:true
+    },
+    cnicBackImg:{
+        type:String,
+        required:true,
+    }
 })
 
 
