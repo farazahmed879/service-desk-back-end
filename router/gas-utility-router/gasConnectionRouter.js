@@ -10,6 +10,22 @@ router.post("/create"  , upload.fields([
 ])  ,createGasConection)
 
 
+// update
+
+router.put("/update" , upload.fields([
+    {name:"cnicFrontImg" , maxCount:1}, 
+    {name:"cnicbackImg" , maxCount:1}, 
+])  ,createGasConection.updateGasConnection )
+ 
+
+
+
+
+
+
+
+
+
 
 module.exports= router
 
