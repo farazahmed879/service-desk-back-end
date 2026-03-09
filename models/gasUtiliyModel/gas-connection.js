@@ -1,26 +1,26 @@
-const { getCipherInfo } = require("crypto");
+
 const mongoose = require("mongoose");
 
 const gasConnectionSchema = new mongoose.Schema({
-  clientId: {
+  clientID: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Users",
   },
 
   connectionType: {
     enum: ["residential", "commercial"],
-    require: true,
+    required: true,
     type: String,
   },
 
   meterNumber: {
     type: String,
-    require: true,
+    required: true,
   },
   status: {
     type: String,
     enum: ["active", "deactivate"],
-    require: true,
+    required: true,
   },
 
   cnicFrontImg: {
