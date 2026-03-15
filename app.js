@@ -14,6 +14,7 @@ const bFromRouter = require("./router/bFromRouter");
 const vehicleRouter = require("./router/vehicleRouter");
 const connectionRouter = require("./router/electric-utility-router/connectionRouter");
 const gasConnectionRouter = require("./router/gas-utility-router/gasConnectionRouter");
+const challanRouter = require("./router/challanRouter/challanRouter");
 // const chatRouter = require("./router/chatRouter");
 // const messageRouter = require("./router/messageRouter");
 // const notificationRouter = require("./router/notificationRouter");
@@ -52,6 +53,7 @@ app.use("/bform", bFromRouter);
 app.use("/Emeter", connectionRouter);
 app.use("/Gmeter", gasConnectionRouter);
 app.use("/vehicle", vehicleRouter);
+app.use("/challan", challanRouter);
 
 // app.use("/chats", chatRouter);
 // app.use("/messages", messageRouter);
